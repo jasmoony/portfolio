@@ -15,3 +15,29 @@ body {
   background: var(--neptune);
   transform-origin: 0%;
 }
+.sparkle-container {
+  position: relative;
+  display: inline-block;
+}
+
+.sparkle-container::before {
+  content: '✨';
+  position: absolute;
+  top: 0;
+  left: -15%;
+  transform: translateX(-50%);
+  animation: sparkle 2s infinite;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.sparkle-container::before:hover .sparkle-container::before {
+  opacity: 1;
+  animation: sparkle 1s infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1); opacity: 0; }
+  50% { transform: scale(1.5); opacity: 1; }
+}
