@@ -42,8 +42,3 @@ body {
   50% { transform: scale(1.5); opacity: 1; }
 }
 
-.strike-through {
-  width:10px;
-  height:4px;
-  border-radius:50px;
-}

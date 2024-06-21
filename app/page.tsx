@@ -29,20 +29,42 @@ export default function Home() {
                 className="w-0 h-2 top-1/2 left-0 transition-[width] group-hover:w-full bg-neptune-400 absolute"
               ></div>
             </div>
-            <div className="ml-2 cursor-pointer "> turned</div>
-            <a
-              href="https://github.com/jasmoony"
-              className="hover:font-bold hover:underline hover:text-mypink-700 hover:italic ml-2"
-            >
-              software engineer
-            </a>{" "}
-            {/* transitie versoepelen */}
-            <div className="text-center">with a love for</div>
-            <div className="ml-2">magical stories,</div>
-            <div className="hover:text-amber-950	">oat milk cappuccinos</div>
-            <div className="ml-2">and the beach</div>
-            <div className="ml-2 hover:animate-spin">🏄‍♀️</div>{" "}
-            {/* hit area groter maken */}
+            <span className="ml-2"> turned</span>
+            <div className="relative group">
+              <a
+                href="https://github.com/jasmoony"
+                className="hover:font-bold hover:text-mypink-700 hover:italic ml-2"
+              >
+                software engineer
+              </a>{" "}
+              <div
+                id="underline"
+                className="w-0 h-2 bottom-0 left-0 transition-[width] group-hover:w-full bg-mypink-700 absolute"
+              ></div>
+            </div>
+            <span className="text-center">with a love for</span>
+            <div className="relative group">
+              <div
+                id="sparkle"
+                className="opacity-0 top-0 right-0 translate-x-full group-hover:opacity-100 absolute animate-pulse"
+              >
+                ✨
+              </div>
+              <span className="">magical stories,</span>
+              <div
+                id="sparkle"
+                className="opacity-0 top-0 left-0 -translate-x-full group-hover:opacity-100 absolute animate-pulse"
+              >
+                ✨
+              </div>
+            </div>
+            <span className="hover:text-amber-950	">oat milk cappuccinos</span>
+            <div className="relative group">
+              <span className="">and the beach</span>
+              <div className="top-0 right-0 translate-x-full absolute group-hover:animate-spin repeat-2">
+                🏄‍♀️
+              </div>{" "}
+            </div>
           </div>
         </div>
       </>
