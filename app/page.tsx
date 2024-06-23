@@ -33,7 +33,7 @@ export default function Home() {
             <div className="relative group">
               <a
                 href="https://github.com/jasmoony"
-                className="hover:font-bold hover:text-mypink-700 hover:italic ml-2"
+                className="group-hover:font-bold group-hover:text-mypink-700 group-hover:italic ml-2"
               >
                 software engineer
               </a>{" "}
