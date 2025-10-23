@@ -7,6 +7,13 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Webdev by Jasmine",
   description: "Webdev by Jasmine",
+  icons: {
+    icon: [
+      { url: "/cloud.png", sizes: "32x32", type: "image/png" },
+      { url: "/cloud.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/cloud.png",
+  },
 };
 
 export default function RootLayout({
