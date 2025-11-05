@@ -2,7 +2,15 @@ import { BlogPost } from "./types";
 
 export const blogPosts: BlogPost[] = [
   {
-    id: "1",
+    id: "4",
+    title: "everything has a name #1",
+    content: `everything has a name in the world of coding. this week i learned what the gutter is - the vertical space in your code editor on the left of the line numbers.`,
+    date: "2025-10-31",
+    slug: "everything-has-a-name-1",
+    readTime: 5,
+  },
+  {
+    id: "3",
     title: "what knitting and coding have in common",
     content: `both have their own language you need to learn. for both, it's trying, failing, learning and trying again. for me personally, the challenge in both of them is to see a project through to the end.`,
     date: "2025-10-22",
@@ -18,7 +26,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 8,
   },
   {
-    id: "3",
+    id: "1",
     title: "what swift taught me about async",
     content: `i got stuck working with the photospicker api, which was very annoying but it taught me more about async functions and how they work. this is quite a difficult concept to grasp when learning to code. but basically; the key takeaway for me was : don't trigger ui changes from inside async operations - trigger them from state changes instead.`,
     date: "2025-10-3",
