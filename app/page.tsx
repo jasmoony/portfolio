@@ -30,9 +30,10 @@ export default function Home() {
         </div>
         <div className="text-neptune-400 font-normal text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto text-center px-4">
           welcome to my little corner on the internet. i am a programmer with a
-          business degree and a background in product management. i'm learning
-          how to code, next to raising a tiny human. and where there's time
-          left, i like to read, knit or go to the beach.
+          business degree and a background in product management. i'm currently
+          working on an ios app to add personal touches to your playlists to
+          share with your friends. next to this, i'm raising a tiny human. and
+          where there's time left, i like to read, knit or go to the beach.
         </div>
       </div>
 
