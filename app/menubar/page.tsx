@@ -6,8 +6,8 @@ export default function MenuBar() {
       <Link className="p-8" href="/contactform">
         say hi
       </Link>
-      <Link className="p-8" href="/blog">
-        this week i learned
+      <Link className="p-8" href="/about">
+        about
       </Link>
       <Link className="p-8" href="/">
         home
