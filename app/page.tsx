@@ -27,7 +27,7 @@ export default function Home() {
         <div className="text-neptune-400 font-normal text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto text-center px-4">
           welcome to my little corner on the internet. i am a self-taught
           software engineer with a business degree and a background in product
-          management. check out my projects <Link href={`/projects`}>here</Link>
+          management. <Link href={`/projects`}>here</Link>
         </div>
       </div>
 
