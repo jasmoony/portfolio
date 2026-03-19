@@ -48,23 +48,23 @@ export default function ProjectDetailPage() {
           {project.description}
         </p>
 
-        <div className="flex gap-6">
-          <div className="flex-1 bg-neptune-100 rounded-lg overflow-hidden">
+        <div className="flex gap-6 justify-center">
+          <div className="w-48">
             <Image
               src={project.screenshots[0]}
-              width={500}
-              height={350}
+              width={300}
+              height={600}
               alt={`${project.title} screenshot 1`}
-              className="w-full h-auto"
+              className="w-full h-auto object-contain"
             />
           </div>
-          <div className="flex-1 bg-neptune-100 rounded-lg overflow-hidden">
+          <div className="w-48">
             <Image
               src={project.screenshots[1]}
-              width={500}
-              height={350}
+              width={300}
+              height={600}
               alt={`${project.title} screenshot 2`}
-              className="w-full h-auto"
+              className="w-full h-auto object-contain"
             />
           </div>
         </div>
