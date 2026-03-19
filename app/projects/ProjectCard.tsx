@@ -11,23 +11,23 @@ export default function ProjectCard({ project }: { project: Project }) {
       <div className="text-neptune-400 font-semibold text-lg mb-3">
         {project.title}
       </div>
-      <div className="flex gap-4">
-        <div className="flex-1 bg-neptune-100 rounded-lg overflow-hidden">
+      <div className="flex gap-4 justify-center">
+        <div className="w-40">
           <Image
             src={project.screenshots[0]}
             width={300}
-            height={200}
+            height={600}
             alt={`${project.title} screenshot 1`}
-            className="w-full h-auto"
+            className="w-full h-auto object-contain"
           />
         </div>
-        <div className="flex-1 bg-neptune-100 rounded-lg overflow-hidden">
+        <div className="w-40">
           <Image
             src={project.screenshots[1]}
             width={300}
-            height={200}
+            height={600}
             alt={`${project.title} screenshot 2`}
-            className="w-full h-auto"
+            className="w-full h-auto object-contain"
           />
         </div>
       </div>
