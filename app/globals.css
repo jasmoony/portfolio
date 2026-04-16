@@ -2,43 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  --neptune: #75B9BE;
+@layer base {
+  :root {
+    --color-accent: #75b9be;
+  }
+
+  body {
+    @apply bg-background text-neptune-700 antialiased;
+  }
 }
 
-.progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background: var(--neptune);
-  transform-origin: 0%;
-}
-.sparkle-container {
-  position: relative;
-  display: inline-block;
+@layer components {
+  /* animated underline: grows from left on hover */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1.5px;
+    transition: background-size 0.3s ease;
+    text-decoration: none;
+  }
+
+  .link-underline:hover {
+    background-size: 100% 1.5px;
+  }
 }
 
-.sparkle-container::before {
-  content: '✨';
-  position: absolute;
-  top: 0;
-  left: -15%;
-  transform: translateX(-50%);
-  animation: sparkle 2s infinite;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
+@layer utilities {
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
 }
 
-.sparkle-container::before:hover .sparkle-container::before {
-  opacity: 1;
-  animation: sparkle 1s infinite;
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-
-@keyframes sparkle {
-  0%, 100% { transform: scale(1); opacity: 0; }
-  50% { transform: scale(1.5); opacity: 1; }
-}
-

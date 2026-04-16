@@ -1,16 +1,15 @@
-import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageWrapper from "../../components/PageWrapper";
 import { getPostBySlug, getAllPosts } from "../data";
 
-interface BlogPostPageProps {
+interface WritingPostPageProps {
   params: {
     slug: string;
   };
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+export default function WritingPostPage({ params }: WritingPostPageProps) {
   const post = getPostBySlug(params.slug);
 
   if (!post) {
@@ -19,47 +18,40 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <PageWrapper>
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto px-6 md:px-12 py-12">
         <Link
-          href="/blog"
-          className="inline-flex items-center text-accent link-underline mb-8"
+          href="/writing"
+          className="text-neptune-700 link-underline mb-10 inline-block text-sm"
         >
-          <svg
-            className="w-4 h-4 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          back to archive
+          &larr; back to writing
         </Link>
 
-        <header className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-accent mb-4">
+        <header className="mb-10">
+          <h1 className="font-serif text-display-xl text-neptune-900 mb-3">
             {post.title}
           </h1>
-
-          <div className="flex flex-wrap items-center gap-4 text-neptune-700 mb-6">
+          <div className="text-neptune-400 text-sm font-mono">
             <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString()}
+              {new Date(post.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </time>
+            {post.readTime && (
+              <span className="ml-3">{post.readTime} min read</span>
+            )}
           </div>
         </header>
 
         <article className="prose prose-lg max-w-none">
-          <div className="text-neptune-700 leading-relaxed">
+          <div className="text-neptune-700 text-lg leading-relaxed">
             {post.content?.split("\n").map((paragraph, index) => {
               if (paragraph.startsWith("# ")) {
                 return (
                   <h1
                     key={index}
-                    className="text-3xl font-bold text-neptune-900 mt-8 mb-4"
+                    className="font-serif text-3xl font-bold text-neptune-900 mt-8 mb-4"
                   >
                     {paragraph.substring(2)}
                   </h1>
@@ -69,7 +61,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 return (
                   <h2
                     key={index}
-                    className="text-2xl font-semibold text-neptune-900 mt-6 mb-3"
+                    className="font-serif text-2xl font-semibold text-neptune-900 mt-6 mb-3"
                   >
                     {paragraph.substring(3)}
                   </h2>
@@ -79,14 +71,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 return (
                   <h3
                     key={index}
-                    className="text-xl font-semibold text-neptune-900 mt-4 mb-2"
+                    className="font-serif text-xl font-semibold text-neptune-900 mt-4 mb-2"
                   >
                     {paragraph.substring(4)}
                   </h3>
                 );
-              }
-              if (paragraph.startsWith("```")) {
-                return null;
               }
               if (paragraph.trim() === "") {
                 return <br key={index} />;
@@ -106,8 +95,5 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return posts.map((post) => ({ slug: post.slug }));
 }
