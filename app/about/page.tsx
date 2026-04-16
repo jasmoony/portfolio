@@ -15,7 +15,7 @@ export default function AboutPage() {
     <PageWrapper>
       <div className="max-w-3xl mx-auto px-6 md:px-12 py-16">
         {/* Headshot */}
-        <div className="mb-14 relative">
+        <div className="mb-12">
           <Image
             src="/jasminefoto.jpeg"
             alt="jasmine tusveld"
@@ -25,7 +25,7 @@ export default function AboutPage() {
             priority
           />
           {/* TODO: re-add arrow once we have a transparent PNG */}
-          <div className="absolute -bottom-6 left-0">
+          <div className="mt-3">
             <span className="font-serif text-neptune-900 text-2xl italic whitespace-nowrap">
               this is me
             </span>

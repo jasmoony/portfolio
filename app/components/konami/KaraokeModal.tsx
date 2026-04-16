@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import LyricsScroller from "./LyricsScroller";
-import { chorus, TOTAL_DURATION } from "./chorus";
+import { lyrics, TOTAL_DURATION } from "./chorus";
 
 interface KaraokeModalProps {
   open: boolean;
@@ -17,7 +17,8 @@ function formatTime(ms: number) {
 }
 
 export default function KaraokeModal({ open, onClose }: KaraokeModalProps) {
-  const [playing, setPlaying] = useState(false);
+  const [screen, setScreen] = useState<"intro" | "karaoke">("intro");
+  const [paused, setPaused] = useState(false);
   const [currentLine, setCurrentLine] = useState(0);
   const [lineElapsed, setLineElapsed] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -25,11 +26,15 @@ export default function KaraokeModal({ open, onClose }: KaraokeModalProps) {
   const [showFinale, setShowFinale] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lineStartRef = useRef(0);
+  const pausedAtRef = useRef(0);
+  const songStartRef = useRef(0);
+  const pausedElapsedRef = useRef(0);
 
   // Reset state when opening
   useEffect(() => {
     if (open) {
-      setPlaying(false);
+      setScreen("intro");
+      setPaused(false);
       setCurrentLine(0);
       setLineElapsed(0);
       setProgress(0);
@@ -50,45 +55,51 @@ export default function KaraokeModal({ open, onClose }: KaraokeModalProps) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  }, [open]);
 
-  // Line advancement — only when playing
+  const isPlaying = screen === "karaoke" && !paused;
+
+  // Line advancement
   useEffect(() => {
-    if (!open || !playing || currentLine >= chorus.length - 1) return;
+    if (!isPlaying || currentLine >= lyrics.length - 1) return;
     const t = setTimeout(() => {
       setCurrentLine(currentLine + 1);
       lineStartRef.current = Date.now();
       setLineElapsed(0);
-    }, chorus[currentLine].duration);
+    }, lyrics[currentLine].duration);
     return () => clearTimeout(t);
-  }, [open, playing, currentLine]);
+  }, [isPlaying, currentLine]);
 
   // Word-by-word progress within current line
   useEffect(() => {
-    if (!open || !playing) return;
+    if (!isPlaying) return;
     lineStartRef.current = Date.now();
     const tick = setInterval(() => {
       setLineElapsed(Date.now() - lineStartRef.current);
     }, 50);
     return () => clearInterval(tick);
-  }, [open, playing, currentLine]);
+  }, [isPlaying, currentLine]);
 
-  // Progress bar — only when playing
+  // Progress bar
   useEffect(() => {
-    if (!open || !playing) return;
+    if (!isPlaying) return;
+    const offset = pausedElapsedRef.current;
     const start = Date.now();
     const tick = setInterval(() => {
-      const el = Date.now() - start;
+      const el = offset + (Date.now() - start);
       setProgress(Math.min(100, (el / TOTAL_DURATION) * 100));
       setElapsed(Math.min(el, TOTAL_DURATION));
       if (el >= TOTAL_DURATION) clearInterval(tick);
     }, 200);
-    return () => clearInterval(tick);
-  }, [open, playing]);
+    return () => {
+      pausedElapsedRef.current = offset + (Date.now() - start);
+      clearInterval(tick);
+    };
+  }, [isPlaying]);
 
   // Auto-close after last line
   const handleClose = useCallback(() => {
@@ -100,22 +111,58 @@ export default function KaraokeModal({ open, onClose }: KaraokeModalProps) {
   }, [onClose]);
 
   useEffect(() => {
-    if (!open || !playing || currentLine !== chorus.length - 1) return;
+    if (!isPlaying || currentLine !== lyrics.length - 1) return;
     const t = setTimeout(() => {
       setShowFinale(true);
-      setTimeout(handleClose, 1500);
-    }, chorus[chorus.length - 1].duration);
+      setTimeout(handleClose, 2500);
+    }, lyrics[lyrics.length - 1].duration);
     return () => clearTimeout(t);
-  }, [open, playing, currentLine, handleClose]);
+  }, [isPlaying, currentLine, handleClose]);
 
   function handlePlay() {
-    setPlaying(true);
+    setScreen("karaoke");
+    setPaused(false);
+    setCurrentLine(0);
+    setLineElapsed(0);
+    setProgress(0);
+    setElapsed(0);
+    setShowFinale(false);
+    pausedElapsedRef.current = 0;
     lineStartRef.current = Date.now();
+    songStartRef.current = Date.now();
+
     const audio = new Audio("/dancingqueen.mp3");
     audioRef.current = audio;
-    audio.play().catch(() => {
-      // Autoplay may be blocked, continue with lyrics anyway
-    });
+    audio.play().catch(() => {});
+  }
+
+  function handlePause() {
+    if (paused) {
+      // Resume
+      audioRef.current?.play().catch(() => {});
+      lineStartRef.current = Date.now() - pausedAtRef.current;
+      setPaused(false);
+    } else {
+      // Pause
+      audioRef.current?.pause();
+      pausedAtRef.current = Date.now() - lineStartRef.current;
+      setPaused(true);
+    }
+  }
+
+  function handleBack() {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setPaused(false);
+    setCurrentLine(0);
+    setLineElapsed(0);
+    setProgress(0);
+    setElapsed(0);
+    setShowFinale(false);
+    pausedElapsedRef.current = 0;
+    setScreen("intro");
   }
 
   if (!open) return null;
@@ -137,7 +184,7 @@ export default function KaraokeModal({ open, onClose }: KaraokeModalProps) {
         ✕
       </button>
 
-      {!playing ? (
+      {screen === "intro" ? (
         /* Intro screen */
         <div className="flex flex-col items-center gap-6">
           <div className="mic text-7xl" aria-hidden="true">
@@ -162,8 +209,26 @@ export default function KaraokeModal({ open, onClose }: KaraokeModalProps) {
             showFinale={showFinale}
           />
 
+          {/* Controls */}
+          <div className="flex items-center gap-6 mt-8">
+            <button
+              onClick={handleBack}
+              className="px-5 py-2 bg-white/15 hover:bg-white/25 rounded-full text-white text-sm font-serif italic transition-colors"
+              aria-label="back to start"
+            >
+              ← back
+            </button>
+            <button
+              onClick={handlePause}
+              className="w-14 h-14 flex items-center justify-center bg-white/20 hover:bg-white/30 rounded-full text-white text-2xl transition-colors"
+              aria-label={paused ? "resume" : "pause"}
+            >
+              {paused ? "▶" : "⏸"}
+            </button>
+          </div>
+
           {/* Progress bar */}
-          <div className="w-full max-w-[300px] mt-10">
+          <div className="w-full max-w-[300px] mt-6">
             <div className="h-1 bg-white/30 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-200"
