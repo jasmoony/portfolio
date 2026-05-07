@@ -3,7 +3,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "writing — jasmine tusveld",
   description:
-    "things i've learned, built, and thought about. notes from a self-taught developer.",
+    "things that inspired me this week.",
 };
 
 export default function WritingLayout({

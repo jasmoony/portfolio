@@ -12,7 +12,7 @@ export default function WritingPage() {
           writing
         </h1>
         <p className="text-neptune-700 text-lg mb-12">
-          things i've learned, built, and thought about.
+          things that inspired me this week.
         </p>
 
         <div className="space-y-1">
