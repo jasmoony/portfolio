@@ -35,11 +35,10 @@ export default function AboutPage() {
         {/* About text */}
         <div className="space-y-6 text-neptune-700 text-lg leading-relaxed mb-16">
           <p>
-            for years i worked as a product manager. i loved the work — taking
-            an idea, arguing about it, shaping it, and watching it ship. but i
-            spent every day handing ideas off to engineers and then sitting on my
-            hands while they built them. eventually i got tired of sitting on my
-            hands.
+            for years i worked as a product manager. i loved this work, but i
+            spent every day handing ideas off to engineers and then sitting on
+            my hands while they built them. eventually i got tired of not being
+            able to code myself.
           </p>
           <p>
             so i quit my job and spent two years teaching myself to code.
@@ -48,12 +47,8 @@ export default function AboutPage() {
           </p>
           <p>
             now i do both. i help founders and small teams take the thing
-            they've been thinking about and actually ship it — scoping,
-            designing, and building it as one person instead of three. no
-            translation layer. no telephone game.
-          </p>
-          <p className="text-neptune-700 italic">
-            (i also still argue about product decisions. it's in my nature.)
+            they've been thinking about and ship it. that means scoping,
+            designing, and building it as one person.
           </p>
         </div>
 
